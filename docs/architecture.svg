@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="700" viewBox="0 0 1440 700" role="img">
+  <title>AeroRoute package architecture</title>
+  <desc>The CLI delegates to a planning service, which coordinates the graph and catalogue. Route algorithms use four custom data structures.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#0E7490"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0F2C3D" flood-opacity=".10"/>
+    </filter>
+  </defs>
+
+  <rect width="1440" height="700" rx="32" fill="#F2F7F9"/>
+  <g font-family="Inter, Arial, sans-serif">
+    <text x="72" y="70" fill="#102A3B" font-size="30" font-weight="800">Architecture with visible algorithm boundaries</text>
+    <text x="72" y="101" fill="#526875" font-size="16">Domain intent stays separate from interaction, orchestration, algorithms, and storage mechanics.</text>
+
+    <g transform="translate(72 235)" filter="url(#shadow)">
+      <rect width="220" height="180" rx="22" fill="#102A3B"/>
+      <text x="24" y="35" fill="#67E8F9" font-size="12" font-weight="800" letter-spacing="1">INTERACTION</text>
+      <text x="24" y="72" fill="#FFFFFF" font-size="20" font-weight="800">Console CLI</text>
+      <text x="24" y="99" fill="#BCD0DB" font-size="13">AeroRouteApplication</text>
+      <rect x="24" y="121" width="172" height="35" rx="11" fill="#1B4055"/>
+      <text x="110" y="144" text-anchor="middle" fill="#D8F8F4" font-size="12" font-weight="700">validated user actions</text>
+    </g>
+
+    <path d="M292 325H360" fill="none" stroke="#0E7490" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="326" y="308" text-anchor="middle" fill="#526875" font-size="11">commands</text>
+
+    <g transform="translate(376 235)" filter="url(#shadow)">
+      <rect width="220" height="180" rx="22" fill="#FFFFFF" stroke="#BDD0D9"/>
+      <text x="24" y="35" fill="#0E7490" font-size="12" font-weight="800" letter-spacing="1">ORCHESTRATION</text>
+      <text x="24" y="72" fill="#102A3B" font-size="20" font-weight="800">Planning service</text>
+      <text x="24" y="99" fill="#526875" font-size="13">AirRoutePlanner</text>
+      <rect x="24" y="121" width="172" height="35" rx="11" fill="#DDF7F4"/>
+      <text x="110" y="144" text-anchor="middle" fill="#0F625E" font-size="12" font-weight="700">synchronizes state</text>
+    </g>
+
+    <path d="M596 285H628V220H676" fill="none" stroke="#0E7490" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M596 365H628V440H676" fill="none" stroke="#0E7490" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="628" y="267" text-anchor="middle" fill="#526875" font-size="11">route state</text>
+    <text x="628" y="423" text-anchor="middle" fill="#526875" font-size="11">candidates</text>
+
+    <g transform="translate(692 145)" filter="url(#shadow)">
+      <rect width="280" height="150" rx="22" fill="#FFFFFF" stroke="#BDD0D9"/>
+      <text x="24" y="35" fill="#0E7490" font-size="12" font-weight="800" letter-spacing="1">NETWORK MODEL</text>
+      <text x="24" y="72" fill="#102A3B" font-size="20" font-weight="800">Graph + catalogue</text>
+      <text x="24" y="98" fill="#526875" font-size="13">weighted adjacency + airport lookup</text>
+      <text x="24" y="122" fill="#526875" font-size="13">bounded simple-path BFS</text>
+    </g>
+
+    <g transform="translate(692 365)" filter="url(#shadow)">
+      <rect width="280" height="150" rx="22" fill="#FFFFFF" stroke="#BDD0D9"/>
+      <text x="24" y="35" fill="#B45309" font-size="12" font-weight="800" letter-spacing="1">RANKING</text>
+      <text x="24" y="72" fill="#102A3B" font-size="20" font-weight="800">Route algorithms</text>
+      <text x="24" y="98" fill="#526875" font-size="13">heap · quick · merge</text>
+      <text x="24" y="122" fill="#526875" font-size="13">distance or layover ordering</text>
+    </g>
+
+    <path d="M972 220H1044" fill="none" stroke="#0E7490" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M972 440H1044" fill="none" stroke="#0E7490" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="1008" y="203" text-anchor="middle" fill="#526875" font-size="11">uses</text>
+    <text x="1008" y="423" text-anchor="middle" fill="#526875" font-size="11">uses</text>
+
+    <g transform="translate(1060 145)" filter="url(#shadow)">
+      <rect width="308" height="370" rx="24" fill="#102A3B"/>
+      <text x="24" y="38" fill="#67E8F9" font-size="12" font-weight="800" letter-spacing="1">CUSTOM STRUCTURES</text>
+      <text x="24" y="70" fill="#FFFFFF" font-size="19" font-weight="800">Implementation layer</text>
+
+      <g transform="translate(24 94)">
+        <rect width="260" height="50" rx="13" fill="#1B4055"/>
+        <circle cx="25" cy="25" r="10" fill="#2DD4BF"/>
+        <text x="46" y="22" fill="#FFFFFF" font-size="13" font-weight="700">OpenAddressHashTable</text>
+        <text x="46" y="38" fill="#BCD0DB" font-size="10">linear probing + tombstones</text>
+      </g>
+      <g transform="translate(24 154)">
+        <rect width="260" height="50" rx="13" fill="#1B4055"/>
+        <circle cx="25" cy="25" r="10" fill="#67E8F9"/>
+        <text x="46" y="22" fill="#FFFFFF" font-size="13" font-weight="700">DoublyLinkedList</text>
+        <text x="46" y="38" fill="#BCD0DB" font-size="10">vertex and edge ordering</text>
+      </g>
+      <g transform="translate(24 214)">
+        <rect width="260" height="50" rx="13" fill="#1B4055"/>
+        <circle cx="25" cy="25" r="10" fill="#FBBF24"/>
+        <text x="46" y="22" fill="#FFFFFF" font-size="13" font-weight="700">ArrayQueue</text>
+        <text x="46" y="38" fill="#BCD0DB" font-size="10">resizing circular BFS frontier</text>
+      </g>
+      <g transform="translate(24 274)">
+        <rect width="260" height="50" rx="13" fill="#1B4055"/>
+        <circle cx="25" cy="25" r="10" fill="#FB7185"/>
+        <text x="46" y="22" fill="#FFFFFF" font-size="13" font-weight="700">BinaryHeap</text>
+        <text x="46" y="38" fill="#BCD0DB" font-size="10">comparator-driven route ranking</text>
+      </g>
+    </g>
+
+    <rect x="72" y="580" width="1296" height="62" rx="20" fill="#DDF7F4" stroke="#A7DED8"/>
+    <text x="720" y="606" text-anchor="middle" fill="#0F625E" font-size="13" font-weight="800">DESIGN INVARIANT</text>
+    <text x="720" y="628" text-anchor="middle" fill="#385E61" font-size="13">The service is the only mutation boundary, so graph vertices and catalogue entries cannot drift apart.</text>
+  </g>
+</svg>

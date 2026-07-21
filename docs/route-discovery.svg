@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="620" viewBox="0 0 1440 620" role="img">
+  <title>AeroRoute route discovery and ranking flow</title>
+  <desc>A query moves through a bounded breadth-first frontier, becomes a list of route candidates, and is ranked by a selected sorting strategy.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#0E7490"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0F2C3D" flood-opacity=".10"/>
+    </filter>
+  </defs>
+
+  <rect width="1440" height="620" rx="32" fill="#F2F7F9"/>
+  <g font-family="Inter, Arial, sans-serif">
+    <text x="72" y="66" fill="#102A3B" font-size="30" font-weight="800">From a route question to a ranked answer</text>
+    <text x="72" y="98" fill="#526875" font-size="16">One horizontal flow, four exact boundaries, no hidden network service.</text>
+
+    <path d="M318 322H370" stroke="#0E7490" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M668 322H720" stroke="#0E7490" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M1018 322H1070" stroke="#0E7490" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <g transform="translate(72 174)" filter="url(#shadow)">
+      <rect width="246" height="296" rx="22" fill="#102A3B"/>
+      <circle cx="34" cy="34" r="16" fill="#2DD4BF"/>
+      <text x="34" y="40" text-anchor="middle" fill="#062132" font-size="14" font-weight="800">1</text>
+      <text x="62" y="40" fill="#FFFFFF" font-size="18" font-weight="800">Define</text>
+      <text x="24" y="82" fill="#BCD0DB" font-size="12">Origin</text>
+      <rect x="24" y="94" width="198" height="44" rx="11" fill="#1B4055"/>
+      <text x="40" y="122" fill="#FFFFFF" font-size="15" font-weight="800">JFK</text>
+      <text x="24" y="166" fill="#BCD0DB" font-size="12">Destination</text>
+      <rect x="24" y="178" width="198" height="44" rx="11" fill="#1B4055"/>
+      <text x="40" y="206" fill="#FFFFFF" font-size="15" font-weight="800">LAX</text>
+      <rect x="24" y="238" width="198" height="34" rx="17" fill="#2DD4BF"/>
+      <text x="123" y="260" text-anchor="middle" fill="#062132" font-size="12" font-weight="800">MAX 2 LAYOVERS</text>
+    </g>
+
+    <g transform="translate(386 174)" filter="url(#shadow)">
+      <rect width="282" height="296" rx="22" fill="#FFFFFF" stroke="#BDD0D9"/>
+      <circle cx="34" cy="34" r="16" fill="#67E8F9"/>
+      <text x="34" y="40" text-anchor="middle" fill="#062132" font-size="14" font-weight="800">2</text>
+      <text x="62" y="40" fill="#102A3B" font-size="18" font-weight="800">Explore</text>
+      <text x="24" y="75" fill="#526875" font-size="12">Breadth-first frontier</text>
+
+      <g transform="translate(24 96)">
+        <rect width="234" height="42" rx="11" fill="#DDF7F4"/>
+        <text x="14" y="26" fill="#0F625E" font-size="12" font-weight="700">JFK</text>
+        <text x="216" y="26" text-anchor="end" fill="#527576" font-size="11">0 km</text>
+      </g>
+      <g transform="translate(24 148)">
+        <rect width="234" height="42" rx="11" fill="#E8F6FA"/>
+        <text x="14" y="26" fill="#0E7490" font-size="12" font-weight="700">JFK → ORD</text>
+        <text x="216" y="26" text-anchor="end" fill="#526875" font-size="11">1,190 km</text>
+      </g>
+      <g transform="translate(24 200)">
+        <rect width="234" height="42" rx="11" fill="#E8F6FA"/>
+        <text x="14" y="26" fill="#0E7490" font-size="12" font-weight="700">JFK → SJC</text>
+        <text x="216" y="26" text-anchor="end" fill="#526875" font-size="11">4,110 km</text>
+      </g>
+      <text x="141" y="272" text-anchor="middle" fill="#526875" font-size="11">cycles rejected · edge bound enforced</text>
+    </g>
+
+    <g transform="translate(736 174)" filter="url(#shadow)">
+      <rect width="282" height="296" rx="22" fill="#FFFFFF" stroke="#BDD0D9"/>
+      <circle cx="34" cy="34" r="16" fill="#FBBF24"/>
+      <text x="34" y="40" text-anchor="middle" fill="#2A1C02" font-size="14" font-weight="800">3</text>
+      <text x="62" y="40" fill="#102A3B" font-size="18" font-weight="800">Collect</text>
+      <text x="24" y="75" fill="#526875" font-size="12">Immutable route candidates</text>
+
+      <g transform="translate(24 96)">
+        <rect width="234" height="50" rx="12" fill="#F8FAFC" stroke="#D6E1E6"/>
+        <text x="14" y="21" fill="#102A3B" font-size="11" font-weight="800">JFK → LAX</text>
+        <text x="14" y="39" fill="#526875" font-size="10">3,983 km · 0 layovers</text>
+      </g>
+      <g transform="translate(24 156)">
+        <rect width="234" height="50" rx="12" fill="#F8FAFC" stroke="#D6E1E6"/>
+        <text x="14" y="21" fill="#102A3B" font-size="11" font-weight="800">JFK → ORD → LAX</text>
+        <text x="14" y="39" fill="#526875" font-size="10">3,997 km · 1 layover</text>
+      </g>
+      <g transform="translate(24 216)">
+        <rect width="234" height="50" rx="12" fill="#F8FAFC" stroke="#D6E1E6"/>
+        <text x="14" y="21" fill="#102A3B" font-size="11" font-weight="800">JFK → ORD → DFW → LAX</text>
+        <text x="14" y="39" fill="#526875" font-size="10">4,468 km · 2 layovers</text>
+      </g>
+    </g>
+
+    <g transform="translate(1086 174)" filter="url(#shadow)">
+      <rect width="282" height="296" rx="22" fill="#102A3B"/>
+      <circle cx="34" cy="34" r="16" fill="#FB7185"/>
+      <text x="34" y="40" text-anchor="middle" fill="#3B0711" font-size="14" font-weight="800">4</text>
+      <text x="62" y="40" fill="#FFFFFF" font-size="18" font-weight="800">Rank</text>
+      <text x="24" y="75" fill="#BCD0DB" font-size="12">Choose the ordering strategy</text>
+
+      <rect x="24" y="96" width="72" height="34" rx="10" fill="#1B4055"/>
+      <text x="60" y="118" text-anchor="middle" fill="#D8F8F4" font-size="11" font-weight="700">HEAP</text>
+      <rect x="105" y="96" width="72" height="34" rx="10" fill="#1B4055"/>
+      <text x="141" y="118" text-anchor="middle" fill="#D8F8F4" font-size="11" font-weight="700">QUICK</text>
+      <rect x="186" y="96" width="72" height="34" rx="10" fill="#1B4055"/>
+      <text x="222" y="118" text-anchor="middle" fill="#D8F8F4" font-size="11" font-weight="700">MERGE</text>
+
+      <text x="24" y="164" fill="#BCD0DB" font-size="11">Primary key</text>
+      <text x="258" y="164" text-anchor="end" fill="#FFFFFF" font-size="12" font-weight="700">distance</text>
+      <line x1="24" y1="178" x2="258" y2="178" stroke="#315872"/>
+      <text x="24" y="202" fill="#BCD0DB" font-size="11">Tie-breakers</text>
+      <text x="258" y="202" text-anchor="end" fill="#FFFFFF" font-size="12" font-weight="700">layovers · path</text>
+
+      <rect x="24" y="226" width="234" height="46" rx="13" fill="#2DD4BF"/>
+      <text x="141" y="245" text-anchor="middle" fill="#062132" font-size="10" font-weight="800">BEST MATCH</text>
+      <text x="141" y="262" text-anchor="middle" fill="#062132" font-size="12" font-weight="800">JFK → LAX · 3,983 km</text>
+    </g>
+
+    <rect x="72" y="526" width="1296" height="42" rx="21" fill="#DDF7F4"/>
+    <text x="720" y="552" text-anchor="middle" fill="#0F625E" font-size="13" font-weight="700">Every benchmarked sort is validated before its elapsed time is reported.</text>
+  </g>
+</svg>
