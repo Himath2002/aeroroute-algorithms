@@ -7,6 +7,7 @@ public final class SampleNetworks {
     private SampleNetworks() {
     }
 
+    /** Loads demonstration network 1, 2, or 3 into a new planner. */
     public static AirRoutePlanner load(int networkNumber) {
         AirRoutePlanner planner = new AirRoutePlanner();
         switch (networkNumber) {

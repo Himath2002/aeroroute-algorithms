@@ -5,6 +5,7 @@ import java.util.Objects;
 
 /** A complete candidate route, including its ordered stops and total distance. */
 public record Route(List<String> stops, int distanceKm) {
+    /** Creates an immutable route from at least two ordered stops. */
     public Route {
         Objects.requireNonNull(stops, "stops");
         stops = List.copyOf(stops);
@@ -17,10 +18,12 @@ public record Route(List<String> stops, int distanceKm) {
         }
     }
 
+    /** Returns the number of intermediate airports on this route. */
     public int layovers() {
         return Math.max(0, stops.size() - 2);
     }
 
+    /** Returns the ordered airport codes as a human-readable path. */
     public String path() {
         return String.join(" -> ", stops);
     }

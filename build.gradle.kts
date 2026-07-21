@@ -1,3 +1,5 @@
+import org.gradle.external.javadoc.StandardJavadocDocletOptions
+
 plugins {
     application
     java
@@ -41,6 +43,12 @@ tasks.register<JavaExec>("benchmark") {
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
     options.compilerArgs.addAll(listOf("-Xlint:all", "-Werror"))
+}
+
+tasks.withType<Javadoc>().configureEach {
+    options.encoding = "UTF-8"
+    (options as StandardJavadocDocletOptions).addBooleanOption("Xdoclint:all,-missing", true)
+    (options as StandardJavadocDocletOptions).addBooleanOption("Werror", true)
 }
 
 tasks.test {

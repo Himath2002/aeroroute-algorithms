@@ -14,31 +14,38 @@ public final class OpenAddressHashTable<V> {
     private Slot<V>[] slots;
     private int size;
 
+    /** Creates an empty table with the minimum prime capacity. */
     public OpenAddressHashTable() {
         this(MINIMUM_CAPACITY);
     }
 
+    /** Creates an empty table using at least the requested capacity. */
     @SuppressWarnings("unchecked")
     public OpenAddressHashTable(int requestedCapacity) {
         slots = (Slot<V>[]) new Slot<?>[nextPrime(Math.max(MINIMUM_CAPACITY, requestedCapacity))];
     }
 
+    /** Returns the number of active entries. */
     public int size() {
         return size;
     }
 
+    /** Returns whether the table has no active entries. */
     public boolean isEmpty() {
         return size == 0;
     }
 
+    /** Returns active entries divided by slot capacity. */
     public double loadFactor() {
         return (double) size / slots.length;
     }
 
+    /** Returns whether a normalized key exists. */
     public boolean containsKey(String key) {
         return findIndex(normalizeKey(key)) >= 0;
     }
 
+    /** Returns the value for a key or fails when the key is absent. */
     public V get(String key) {
         int index = findIndex(normalizeKey(key));
         if (index < 0) {
@@ -47,11 +54,13 @@ public final class OpenAddressHashTable<V> {
         return slots[index].value;
     }
 
+    /** Returns the value for a key, or {@code null} when absent. */
     public V getOrNull(String key) {
         int index = findIndex(normalizeKey(key));
         return index < 0 ? null : slots[index].value;
     }
 
+    /** Inserts or replaces a non-null value under a normalized key. */
     public void put(String key, V value) {
         String normalizedKey = normalizeKey(key);
         Objects.requireNonNull(value, "value");
@@ -63,6 +72,7 @@ public final class OpenAddressHashTable<V> {
         insert(normalizedKey, value);
     }
 
+    /** Tombstones a key and returns its former value. */
     public V remove(String key) {
         int index = findIndex(normalizeKey(key));
         if (index < 0) {
@@ -75,6 +85,7 @@ public final class OpenAddressHashTable<V> {
         return slot.value;
     }
 
+    /** Returns an immutable snapshot of active entries. */
     public List<Entry<V>> entries() {
         List<Entry<V>> entries = new ArrayList<>(size);
         for (Slot<V> slot : slots) {
@@ -181,6 +192,7 @@ public final class OpenAddressHashTable<V> {
         return true;
     }
 
+    /** Immutable key-value pair exposed by snapshot operations. */
     public record Entry<V>(String key, V value) {
     }
 

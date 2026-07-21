@@ -18,13 +18,19 @@ public final class SortingBenchmark {
     private SortingBenchmark() {
     }
 
+    /** Input arrangements exercised by the benchmark matrix. */
     public enum InputOrder {
+        /** Values ordered by increasing distance. */
         ASCENDING,
+        /** Values ordered by decreasing distance. */
         DESCENDING,
+        /** Values placed in deterministic pseudo-random order. */
         RANDOM,
+        /** Ascending values with approximately five percent of positions swapped. */
         NEARLY_SORTED
     }
 
+    /** One validated timing observation. */
     public record Result(String algorithm, int elements, InputOrder order, double milliseconds) {
         @Override
         public String toString() {
@@ -33,6 +39,7 @@ public final class SortingBenchmark {
         }
     }
 
+    /** Runs all algorithms and input orders for each requested size. */
     public static List<Result> run(int[] sizes) {
         List<Result> results = new ArrayList<>();
         for (int size : sizes) {
@@ -49,6 +56,7 @@ public final class SortingBenchmark {
         return List.copyOf(results);
     }
 
+    /** Generates a repeatable route input for one benchmark scenario. */
     public static List<Route> generate(int size, InputOrder order) {
         if (size < 0) {
             throw new IllegalArgumentException("Size cannot be negative.");

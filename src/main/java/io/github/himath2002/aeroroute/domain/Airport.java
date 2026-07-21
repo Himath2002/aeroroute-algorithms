@@ -5,6 +5,7 @@ import java.util.Objects;
 
 /** Identifies an airport by its three-letter code and display name. */
 public record Airport(String code, String name) {
+    /** Creates a validated airport and normalizes its code to uppercase. */
     public Airport {
         Objects.requireNonNull(code, "code");
         Objects.requireNonNull(name, "name");

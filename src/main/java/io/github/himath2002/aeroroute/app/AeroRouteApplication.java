@@ -24,6 +24,7 @@ public final class AeroRouteApplication {
         this.output = output;
     }
 
+    /** Starts the CLI with sample network 1, 2, or 3. */
     public static void main(String[] arguments) {
         int networkNumber;
         try {

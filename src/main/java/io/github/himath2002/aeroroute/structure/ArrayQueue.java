@@ -12,18 +12,22 @@ public final class ArrayQueue<T> {
     private int tail;
     private int size;
 
+    /** Creates an empty queue with a small initial buffer. */
     public ArrayQueue() {
         elements = new Object[DEFAULT_CAPACITY];
     }
 
+    /** Returns whether the queue has no elements. */
     public boolean isEmpty() {
         return size == 0;
     }
 
+    /** Returns the number of queued elements. */
     public int size() {
         return size;
     }
 
+    /** Adds a non-null value at the tail. */
     public void offer(T value) {
         Objects.requireNonNull(value, "value");
         if (size == elements.length) {
@@ -34,6 +38,7 @@ public final class ArrayQueue<T> {
         size++;
     }
 
+    /** Returns the head value without removing it. */
     public T peek() {
         if (isEmpty()) {
             throw new NoSuchElementException("Queue is empty.");
@@ -41,6 +46,7 @@ public final class ArrayQueue<T> {
         return elementAt(head);
     }
 
+    /** Removes and returns the head value. */
     public T poll() {
         if (isEmpty()) {
             throw new NoSuchElementException("Queue is empty.");

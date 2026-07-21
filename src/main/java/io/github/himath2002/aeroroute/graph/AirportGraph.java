@@ -23,18 +23,22 @@ public final class AirportGraph {
     private final OpenAddressHashTable<Vertex> verticesByCode = new OpenAddressHashTable<>();
     private int connectionCount;
 
+    /** Returns the number of vertices in the graph. */
     public int airportCount() {
         return vertices.size();
     }
 
+    /** Returns the number of undirected connections in the graph. */
     public int connectionCount() {
         return connectionCount;
     }
 
+    /** Returns whether an airport code exists in the graph. */
     public boolean containsAirport(String code) {
         return verticesByCode.containsKey(normalizeCode(code));
     }
 
+    /** Adds a new airport vertex. */
     public void addAirport(Airport airport) {
         Objects.requireNonNull(airport, "airport");
         if (verticesByCode.containsKey(airport.code())) {
@@ -46,10 +50,12 @@ public final class AirportGraph {
         verticesByCode.put(airport.code(), vertex);
     }
 
+    /** Returns the airport for a code or fails when it is unknown. */
     public Airport getAirport(String code) {
         return requireVertex(code).airport;
     }
 
+    /** Returns an immutable, code-sorted airport snapshot. */
     public List<Airport> airports() {
         List<Airport> result = new ArrayList<>(vertices.size());
         for (Vertex vertex : vertices) {
@@ -59,6 +65,7 @@ public final class AirportGraph {
         return List.copyOf(result);
     }
 
+    /** Removes an airport and every connection incident to it. */
     public Airport removeAirport(String code) {
         Vertex removed = requireVertex(code);
         List<Edge> connections = removed.edges.toList();
@@ -72,6 +79,7 @@ public final class AirportGraph {
         return removed.airport;
     }
 
+    /** Creates one weighted, undirected connection between distinct airports. */
     public void connect(String firstCode, String secondCode, int distanceKm) {
         if (distanceKm <= 0) {
             throw new IllegalArgumentException("Distance must be greater than zero.");
@@ -91,6 +99,7 @@ public final class AirportGraph {
         connectionCount++;
     }
 
+    /** Removes the connection between two airports. */
     public void disconnect(String firstCode, String secondCode) {
         Vertex first = requireVertex(firstCode);
         Vertex second = requireVertex(secondCode);
@@ -103,12 +112,18 @@ public final class AirportGraph {
         connectionCount--;
     }
 
+    /** Returns whether two airports share a direct connection. */
     public boolean areConnected(String firstCode, String secondCode) {
         Vertex first = requireVertex(firstCode);
         Vertex second = requireVertex(secondCode);
         return edgeTo(first, second) != null;
     }
 
+    /**
+     * Enumerates simple routes between two airports within a layover limit.
+     *
+     * @return an immutable candidate list in breadth-first discovery order
+     */
     public List<Route> findRoutes(String originCode, String destinationCode, int maximumLayovers) {
         if (maximumLayovers < 0) {
             throw new IllegalArgumentException("Maximum layovers cannot be negative.");
@@ -151,6 +166,7 @@ public final class AirportGraph {
         return List.copyOf(matches);
     }
 
+    /** Returns a deterministic, human-readable adjacency list. */
     public String adjacencyList() {
         StringBuilder output = new StringBuilder();
         for (Airport airport : airports()) {
@@ -177,6 +193,7 @@ public final class AirportGraph {
         return output.toString().stripTrailing();
     }
 
+    /** Returns a deterministic distance matrix using a middle dot for no edge. */
     public String adjacencyMatrix() {
         List<Airport> ordered = airports();
         StringBuilder output = new StringBuilder("     ");

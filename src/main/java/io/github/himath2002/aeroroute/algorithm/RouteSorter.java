@@ -15,10 +15,13 @@ public final class RouteSorter {
     private RouteSorter() {
     }
 
+    /** Supported primary keys for deterministic route ordering. */
     public enum SortKey {
+        /** Orders shorter total distances first. */
         DISTANCE(Comparator.comparingInt(Route::distanceKm)
                 .thenComparingInt(Route::layovers)
                 .thenComparing(Route::path)),
+        /** Orders fewer layovers first. */
         LAYOVERS(Comparator.comparingInt(Route::layovers)
                 .thenComparingInt(Route::distanceKm)
                 .thenComparing(Route::path));
@@ -29,11 +32,13 @@ public final class RouteSorter {
             this.comparator = comparator;
         }
 
+        /** Returns the comparator, including stable tie-breakers. */
         public Comparator<Route> comparator() {
             return comparator;
         }
     }
 
+    /** Returns the first route under the selected ordering. */
     public static Route bestRoute(List<Route> routes, SortKey key) {
         if (routes.isEmpty()) {
             throw new NoSuchElementException("No routes are available.");
@@ -41,6 +46,7 @@ public final class RouteSorter {
         return heapSort(routes, key).get(0);
     }
 
+    /** Returns a heap-ordered immutable copy of the routes. */
     public static List<Route> heapSort(List<Route> routes, SortKey key) {
         Objects.requireNonNull(routes, "routes");
         BinaryHeap<Route> heap = new BinaryHeap<>(key.comparator());
@@ -53,6 +59,7 @@ public final class RouteSorter {
         return List.copyOf(sorted);
     }
 
+    /** Returns a quick-sorted immutable copy of the routes. */
     public static List<Route> quickSort(List<Route> routes, SortKey key) {
         Objects.requireNonNull(routes, "routes");
         Route[] values = routes.toArray(Route[]::new);
@@ -60,6 +67,7 @@ public final class RouteSorter {
         return List.copyOf(Arrays.asList(values));
     }
 
+    /** Returns a merge-sorted immutable copy of the routes. */
     public static List<Route> mergeSort(List<Route> routes, SortKey key) {
         Objects.requireNonNull(routes, "routes");
         Route[] values = routes.toArray(Route[]::new);
@@ -68,6 +76,7 @@ public final class RouteSorter {
         return List.copyOf(Arrays.asList(values));
     }
 
+    /** Returns whether every adjacent pair respects the selected ordering. */
     public static boolean isSorted(List<Route> routes, SortKey key) {
         for (int index = 1; index < routes.size(); index++) {
             if (key.comparator().compare(routes.get(index - 1), routes.get(index)) > 0) {

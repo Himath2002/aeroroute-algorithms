@@ -5,6 +5,7 @@ public final class BenchmarkApplication {
     private BenchmarkApplication() {
     }
 
+    /** Runs the default benchmark matrix and prints validated elapsed times. */
     public static void main(String[] arguments) {
         System.out.println("Algorithm    Elements Input order       Elapsed");
         System.out.println("--------------------------------------------------");

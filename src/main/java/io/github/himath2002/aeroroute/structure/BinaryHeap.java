@@ -13,18 +13,22 @@ public final class BinaryHeap<T> {
     private Object[] elements = new Object[DEFAULT_CAPACITY];
     private int size;
 
+    /** Creates an empty min-heap ordered by the supplied comparator. */
     public BinaryHeap(Comparator<? super T> comparator) {
         this.comparator = Objects.requireNonNull(comparator, "comparator");
     }
 
+    /** Returns the number of values in the heap. */
     public int size() {
         return size;
     }
 
+    /** Returns whether the heap has no values. */
     public boolean isEmpty() {
         return size == 0;
     }
 
+    /** Adds a non-null value while preserving heap order. */
     public void offer(T value) {
         Objects.requireNonNull(value, "value");
         ensureCapacity();
@@ -33,6 +37,7 @@ public final class BinaryHeap<T> {
         size++;
     }
 
+    /** Returns the minimum value without removing it. */
     public T peek() {
         if (isEmpty()) {
             throw new NoSuchElementException("Heap is empty.");
@@ -40,6 +45,7 @@ public final class BinaryHeap<T> {
         return elementAt(0);
     }
 
+    /** Removes and returns the minimum value. */
     public T poll() {
         T root = peek();
         size--;
