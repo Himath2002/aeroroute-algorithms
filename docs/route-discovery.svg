@@ -53,8 +53,8 @@
       </g>
       <g transform="translate(24 200)">
         <rect width="234" height="42" rx="11" fill="#E8F6FA"/>
-        <text x="14" y="26" fill="#0E7490" font-size="12" font-weight="700">JFK → DFW</text>
-        <text x="216" y="26" text-anchor="end" fill="#526875" font-size="11">2,420 km</text>
+        <text x="14" y="26" fill="#0E7490" font-size="12" font-weight="700">JFK → SJC</text>
+        <text x="216" y="26" text-anchor="end" fill="#526875" font-size="11">4,110 km</text>
       </g>
       <text x="141" y="272" text-anchor="middle" fill="#526875" font-size="11">cycles rejected · edge bound enforced</text>
     </g>
