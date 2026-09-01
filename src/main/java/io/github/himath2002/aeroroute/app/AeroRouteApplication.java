@@ -131,7 +131,7 @@ public final class AeroRouteApplication {
     private void findAirport() {
         String code = input.airportCode("Airport code: ");
         Airport airport = planner.airport(code);
-        output.println(airport.code() + " — " + airport.name());
+        output.println(airport.code() + " - " + airport.name());
     }
 
     private void listAirports() {

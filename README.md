@@ -118,7 +118,7 @@ The package boundaries reflect responsibilities rather than file type:
 | `ArrayQueue<T>` | Dynamically resized circular buffer | Amortized `O(1)` offer and poll |
 | `BinaryHeap<T>` | Comparator-driven min-heap | `O(log n)` offer/poll and `O(1)` peek |
 
-These implementations are intentionally visible. Java collections are used only at clean public boundaries—for example, immutable route results—not as substitutes for the structures being demonstrated.
+These implementations are intentionally visible. Java collections are used only at clean public boundaries-for example, immutable route results-not as substitutes for the structures being demonstrated.
 
 ## Sorting strategies
 
